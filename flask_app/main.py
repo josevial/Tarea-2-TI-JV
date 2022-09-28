@@ -73,10 +73,10 @@ def create_airport(): #se pone algo que recibe?
         tipo = type(json.get('position'))
         return jsonify({"error": f"Invalid type of field position, got {tipo} expecting <class 'dict'>"}), 400
     else:
-        if json.get('position').get('latitude') is None:
+        if json.get('position').get('lat') is None:
             return jsonify({"error": "Invalid type of field position, got <class 'dict'> expecting <class 'dict'>"}), 400
         
-        if json.get('position').get('longitude') is None:
+        if json.get('position').get('long') is None:
             return jsonify({"error": "Invalid type of field position, got <class 'dict'> expecting <class 'dict'>"}), 400
         
 
