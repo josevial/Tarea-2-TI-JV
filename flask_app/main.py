@@ -36,6 +36,9 @@ def create_airport(): #se pone algo que recibe?
     json = request.get_json(force=True)
 
     #Missing parameters
+    if json.get('id') is None:
+        return jsonify({'error': 'Missing field id'}), 400
+
     if json.get('name') is None:
         return jsonify({"error": "Missing parameter: name"}), 400
 
@@ -247,14 +250,13 @@ def update_flight_position(id):
     #retornar la informacion del vuelo
     return jsonify(flight.json()), 200
 
-#ESTADO DE LA API
-@app.route('/status', methods=['GET'])
+
+@app.route('/status', methods=['GET']) #LISTO
 def get_status():
     return('',204)
 
-#resetear el estado de la bdd
 
-@app.route('/data', methods=['DELETE'])
+@app.route('/data', methods=['DELETE']) #LISTO
 def reset():
     db.drop_all()
     db.create_all()
