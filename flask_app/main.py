@@ -39,19 +39,23 @@ def create_airport(): #se pone algo que recibe?
     if json.get('id') is None:
         return jsonify({'error': 'Missing field id'}), 400
 
+
     if json.get('name') is None:
         return jsonify({"error": "Missing parameter: name"}), 400
 
     if json.get('country') is None:
         return jsonify({"error": "Missing parameter: country"}), 400
+
+    if type(json.get('country')) == list:
+        return jsonify({"error": "Invalid type of field country, got <class 'list'> expecting <class 'str'>"}), 400
     
     if json.get('city') is None:
         return jsonify({"error": "Missing parameter: city"}), 400
 
     if json.get('position') is None:
         return jsonify({"error": "Missing parameter: position"}), 400
-    
 
+    #{"error": "Invalid type of field country, got <class 'list'> expecting <class 'str'>"}
     # Revisar las posiciones
     if json.get('position')['lat'] > 90 or json.get('position')['lat'] < -90:
         return jsonify({"error": "Latitude must be between -90 and 90"}), 400
