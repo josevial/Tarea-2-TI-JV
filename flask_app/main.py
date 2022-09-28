@@ -280,23 +280,36 @@ def update_flight_position(id):
     #si existe el id, se actualiza
     flight = Flight.query.filter_by(id=id).first()
     lat_inicio = flight.lat
+
     long_inicio = flight.lon
-    lat_final = request.get_json('lat')
-    long_final = request.get_json('long')
+
+    lat_final = request.json.get('lat')
+
+    long_final = request.json.get('long')
+
     response = requests.get(f'https://tarea-2.2022-2.tallerdeintegracion.cl/distance?initial={str(lat_inicio)},{str(long_inicio)}&final={str(lat_final)},{str(long_final)}')
-    distance = response.json()['distance']
-    flight.total_distance = flight.total_distance + distance
-    bearing = response.json()['bearing']
-    flight.bearing = bearing
+    
+    if response.status_code == 200:
+        distance = response.json()['distance']
+        print('distance', distance)
+        flight.total_distance = flight.total_distance + distance
+        print('flight.total_distance', flight.total_distance)
+        bearing = response.json()['bearing']
+        print('bearing', bearing)
+        flight.bearing = bearing
 
-    #cambiar la posicion
-    flight.lat = request.json['lat']
-    flight.lon = request.json['long']
+        flight.lat = request.json['lat']
+        flight.lon = request.json['long']
 
-    db.session.commit()
+        db.session.commit()
 
-    #retornar la informacion del vuelo
-    return jsonify(flight.json()), 200
+        #retornar la informacion del vuelo
+        return jsonify(flight.json()), 200
+        
+    else:
+        return ('', 404)
+    
+    
 
 
 @app.route('/status', methods=['GET']) #LISTO
