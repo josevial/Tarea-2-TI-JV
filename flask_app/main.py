@@ -48,14 +48,14 @@ def create_airport(): #se pone algo que recibe?
 
     if type(json.get('country')) != str:
         tipo = type(json.get('country'))
-        return jsonify({"error": f"Invalid type of field country, got <class '{tipo}'> expecting <class 'str'>"}), 400
+        return jsonify({"error": f"Invalid type of field country, got {tipo} expecting <class 'str'>"}), 400
     
     if json.get('city') is None:
         return jsonify({"error": "Missing parameter: city"}), 400
     
     if type(json.get('city')) != str:
         tipo = type(json.get('city'))
-        return jsonify({"error": f"Invalid type of field city, got <class '{tipo}'> expecting <class 'str'>"}), 400
+        return jsonify({"error": f"Invalid type of field city, got {tipo} expecting <class 'str'>"}), 400
 
     if json.get('position') is None:
         return jsonify({"error": "Missing parameter: position"}), 400
