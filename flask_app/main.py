@@ -31,7 +31,7 @@ def get_airports():
     return jsonify(airports), 200
 
 
-@app.route('/airports', methods=['POST']) 
+@app.route('/airports', methods=['POST']) #LISTO
 def create_airport(): #se pone algo que recibe?
     json = request.get_json(force=True)
 
@@ -103,7 +103,7 @@ def create_airport(): #se pone algo que recibe?
     
 
 
-@app.route('/airports/<id>', methods=['GET']) #VER QUE NO SE SUBAN EN ORDEN ALFABETICO Y LOS MISING PARAMETRS SON PARA TODOS?
+@app.route('/airports/<id>', methods=['GET']) #LISTO
 def get_airport_id(id):
     airport = Airport.query.filter_by(id=id).first()
     if airport is None:
@@ -165,12 +165,24 @@ def create_flight():
     #Missing parameters
     if json.get('id') is None:
         return jsonify({"error": "Missing parameter: id"}), 400
+    
+    if type(json.get('id')) != str:
+        tipo = type(json.get('id'))
+        return jsonify({"error": f"Invalid type of field id, got {tipo} expecting <class 'str'>"}), 400
 
     if json.get('departure') is None:
         return jsonify({"error": "Missing parameter: departure"}), 400
     
+    type(json.get('departure')) != str:
+        tipo = type(json.get('departure'))
+        return jsonify({"error": f"Invalid type of field departure, got {tipo} expecting <class 'str'>"}), 400
+    
     if json.get('destination') is None:
         return jsonify({"error": "Missing parameter: destination"}), 400
+    
+    if type(json.get('destination')) != str:
+        tipo = type(json.get('destination'))
+        return jsonify({"error": f"Invalid type of field destination, got {tipo} expecting <class 'str'>"}), 400
     
     if json.get('departure') == json.get('destination'):
         return jsonify({"error": "Departure and Destination airports must be different"}), 400
