@@ -158,7 +158,7 @@ def get_flights():
 
     return jsonify(flights), 200
 
-@app.route('/flights', methods=['POST']) #QUE PASA CON LA DISTANCIA Y LOS DEMAS PARAMETROS?
+@app.route('/flights', methods=['POST']) #LISTO
 def create_flight():
     json = request.get_json(force=True)
 
@@ -226,8 +226,6 @@ def create_flight():
         if len(json.get('id')) >= 10:
             #seguir editando aca 
             response = requests.get(f'https://tarea-2.2022-2.tallerdeintegracion.cl/distance?initial={str(departure_lat)},{str(departure_long)}&final={str(destination_lat)},{str(destination_long)}')
-            print(response)
-            print(response.json())
             if response.status_code == 200:
                 total_distance = response.json()['distance']
                 flight = Flight.create(json['id'], departure_id, departure_name, destination_id, destination_name, total_distance, 0, 0, departure_lat, departure_long)
@@ -281,6 +279,16 @@ def update_flight_position(id):
     
     #si existe el id, se actualiza
     flight = Flight.query.filter_by(id=id).first()
+    lat_inicio = flight.departure_lat
+    long_inicio = flight.departure_long
+    lat_final = request.get_json('lat')
+    long_final = request.get_json('long')
+    response = requests.get(f'https://tarea-2.2022-2.tallerdeintegracion.cl/distance?initial={str(lat_inicio)},{str(long_inicio)}&final={str(lat_final)},{str(long_final)}')
+    distance = response.json()['distance']
+    flight.total_distance = flight.total_distance + distance
+    bearing = response.json()['bearing']
+    flight.bearing = bearing
+
     #cambiar la posicion
     flight.lat = request.json['lat']
     flight.lon = request.json['long']
