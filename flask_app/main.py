@@ -254,7 +254,7 @@ def get_status():
 
 #resetear el estado de la bdd
 
-@app.route('/reset', methods=['DELETE'])
+@app.route('/data', methods=['DELETE'])
 def reset():
     db.drop_all()
     db.create_all()
