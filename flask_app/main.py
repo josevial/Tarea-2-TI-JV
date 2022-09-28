@@ -279,8 +279,8 @@ def update_flight_position(id):
     
     #si existe el id, se actualiza
     flight = Flight.query.filter_by(id=id).first()
-    lat_inicio = flight.departure_lat
-    long_inicio = flight.departure_long
+    lat_inicio = flight.lat
+    long_inicio = flight.lon
     lat_final = request.get_json('lat')
     long_final = request.get_json('long')
     response = requests.get(f'https://tarea-2.2022-2.tallerdeintegracion.cl/distance?initial={str(lat_inicio)},{str(long_inicio)}&final={str(lat_final)},{str(long_final)}')
