@@ -173,7 +173,7 @@ def create_flight():
     if json.get('departure') is None:
         return jsonify({"error": "Missing parameter: departure"}), 400
     
-    type(json.get('departure')) != str:
+    if type(json.get('departure')) != str:
         tipo = type(json.get('departure'))
         return jsonify({"error": f"Invalid type of field departure, got {tipo} expecting <class 'str'>"}), 400
     
