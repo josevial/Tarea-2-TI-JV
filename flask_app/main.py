@@ -36,9 +36,7 @@ def create_airport(): #se pone algo que recibe?
     json = request.get_json(force=True)
 
     #Missing parameters
-    print('entra aca')
     if json.get('id') is None:
-        print('HOLA')
         return jsonify({'error': 'Missing field id'}), 400
     
     if type(json.get('id')) != str:
@@ -293,11 +291,8 @@ def update_flight_position(id):
     
     if response.status_code == 200:
         distance = response.json()['distance']
-        print('distance', distance)
         flight.total_distance = flight.total_distance + distance
-        print('flight.total_distance', flight.total_distance)
         bearing = response.json()['bearing']
-        print('bearing', bearing)
         flight.bearing = bearing
 
         flight.lat = request.json['lat']
