@@ -45,7 +45,7 @@ def create_airport(): #se pone algo que recibe?
     if json.get('city') is None:
         return jsonify({"error": "Missing parameter: city"}), 400
 
-    if json.get('position')['lat'] is None:
+    if json.get('position') is None:
         return jsonify({"error": "Missing parameter: position"}), 400
     
 
