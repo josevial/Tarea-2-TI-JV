@@ -142,6 +142,8 @@ def delete_airport(id):
     for flight in Flight.query.all():
         if flight.destination_id == id:
             return jsonify({"error": f"Airport with id {id} has flights in progress"}), 409
+        if flight.departure_id == id:
+            return jsonify({"error": f"Airport with id {id} has active flights"}), 409
 
     #si existe el id se elimina de la base de datos
     airport = Airport.query.filter_by(id=id).first()
